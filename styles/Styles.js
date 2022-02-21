@@ -17,6 +17,11 @@ export default StyleSheet.create({
       },
       pointSlot: {
           alignItems: 'center',
-          padding: 5
+          padding: 5,
+      },
+      pointSlotText: {
+        margin: 5,
+        fontWeight: 'bold',
       }
+      
 })

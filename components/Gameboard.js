@@ -10,7 +10,7 @@ const points = [];
 for (let i = 0; i < POINT_SLOTS; i++) {
     points.push(
         <Col style={Styles.pointSlot}>
-            <Text>0</Text>
+            <Text style={Styles.pointSlotText}>0</Text>
             <Pressable
             key={"points" + i} >
                 <MaterialCommunityIcons
@@ -31,14 +31,14 @@ export default function Gameboard() {
             <Row size={2}><Text>dice go here</Text></Row>
             <Row><Text>Throws Left:</Text></Row>
             <Row><Text>Game Status Message</Text></Row>
-            <Row>
+            <Row size={2}>
                 <Pressable>
                     <Text>Throw dice</Text>
                 </Pressable>
             </Row>
             <Row><Text>Total:</Text></Row>
             <Row><Text>points info message</Text></Row>
-            <Row size={2}>{points}</Row>
+            <Row size={2}><Col/>{points}<Col/></Row>
         </Col>
       </Row>
   )
