@@ -14,5 +14,9 @@ export default StyleSheet.create({
       },
       footer: {
           backgroundColor: 'darkorange',
+      },
+      pointSlot: {
+          alignItems: 'center',
+          padding: 5
       }
 })
