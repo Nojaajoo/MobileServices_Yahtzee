@@ -4,9 +4,8 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Styles from '../styles/Styles';
 
-
+// point slot buttons - WIP: points readout, changing of color and icon style based on selection
 const POINT_SLOTS = 6;
-
 const points = [];
 for (let i = 0; i < POINT_SLOTS; i++) {
     points.push(
@@ -17,12 +16,11 @@ for (let i = 0; i < POINT_SLOTS; i++) {
                 <MaterialCommunityIcons
                 name={"numeric-" + [i + 1] + "-box-multiple-outline"}
                 key={"points" + i}
-                size={50}
+                size={40}
                 color={"red"}>
                 </MaterialCommunityIcons>
             </Pressable>
         </Col>
-        
     )
 }
 
@@ -30,7 +28,17 @@ export default function Gameboard() {
   return (
       <Row size={10}>
         <Col>
-          <Row>{points}</Row>
+            <Row size={2}><Text>dice go here</Text></Row>
+            <Row><Text>Throws Left:</Text></Row>
+            <Row><Text>Game Status Message</Text></Row>
+            <Row>
+                <Pressable>
+                    <Text>Throw dice</Text>
+                </Pressable>
+            </Row>
+            <Row><Text>Total:</Text></Row>
+            <Row><Text>points info message</Text></Row>
+            <Row size={2}>{points}</Row>
         </Col>
       </Row>
   )
