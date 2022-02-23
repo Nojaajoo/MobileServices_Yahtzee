@@ -9,15 +9,34 @@ const DICES = 5;
 const THROWS = 3;
 let board = [];
 
+
 export default function Gameboard() {
 
 const [throwsLeft, setThrowsLeft] = useState(THROWS);
 const [status, setStatus] = useState('');
 const [selectedDices, setSelectedDices] =
     useState(new Array(DICES).fill(false));
+const [selectedPoints, setSelectedPoints] =
+    useState(new Array(DICES).fill(false));
+
+// const [selectedPoints, setSelectedPoints] =
+//     useState(slots);
+
+let slots = [];
+for (let i = 0; i < POINT_SLOTS; i++) {
+    slots.push([
+        {
+            "slot_id": "points" + i,
+            "selected": false,
+            "locked": false,
+            "value": 0
+        }
+    ])
+}
 
 // FUNCTION: THROW DICE
 const throwDice = () => {
+    console.log(slots);
     for (let i = 0; i < DICES; i++) {
         if (!selectedDices[i]) {
             let randomNumber = Math.floor(Math.random() * 6 + 1 );
@@ -37,6 +56,18 @@ const selectDice = (i) => {
 // FUNCTION: SET COLOR OF SELECTED DICE
 const getDiceColor = (i) => {
     return selectedDices[i] ? "red" : "black";
+}
+
+// FUNCTION: SELECT POINTS TO KEEP
+const selectPoints = (i) => {
+    let points = [...selectedPoints];
+    points[i] = selectedPoints[i] ? false : true;
+    setSelectedPoints(points);
+}
+
+// FUNCTION: SET SELECTED POINTS CATEGORY COLOR
+const getPointsColor = (i) => {
+    return selectedPoints[i] ? "red" : "black";
 }
 
 // dice row/board
@@ -65,12 +96,13 @@ for (let i = 0; i < POINT_SLOTS; i++) {
         <Col style={Styles.pointSlot}>
             <Text style={Styles.pointSlotText}>0</Text>
             <Pressable
-            key={"points" + i} >
+            key={"points" + i} 
+            onPress={() => selectPoints(i)}>
                 <MaterialCommunityIcons
                 name={"numeric-" + [i + 1] + "-box-multiple-outline"}
                 key={"points" + i}
                 size={40}
-                color={"red"}>
+                color={getPointsColor(i)}>
                 </MaterialCommunityIcons>
             </Pressable>
         </Col>

@@ -30,7 +30,7 @@ export default StyleSheet.create({
         margin: 30,
         flexDirection: "column",
         padding: 10,
-        backgroundColor: "#73CED6",
+        backgroundColor: "orange",
         width: 150,
         borderRadius: 15,
         justifyContent: 'center',
