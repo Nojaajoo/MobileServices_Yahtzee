@@ -15,6 +15,9 @@ export default StyleSheet.create({
       footer: {
           backgroundColor: 'darkorange',
       },
+      row: {
+        justifyContent: "center",
+      },
       pointSlot: {
           alignItems: 'center',
           padding: 5,
@@ -22,6 +25,19 @@ export default StyleSheet.create({
       pointSlotText: {
         margin: 5,
         fontWeight: 'bold',
+      },
+      button: {
+        margin: 30,
+        flexDirection: "column",
+        padding: 10,
+        backgroundColor: "#73CED6",
+        width: 150,
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      buttonText: {
+        color:"#2B2B52",
+        fontSize: 20
       }
-      
 })

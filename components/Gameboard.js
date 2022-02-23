@@ -1,11 +1,64 @@
 import { View, Text, Pressable } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Styles from '../styles/Styles';
 
-// point slot buttons - WIP: points readout, changing of color and icon style based on selection
 const POINT_SLOTS = 6;
+const DICES = 5;
+const THROWS = 3;
+let board = [];
+
+export default function Gameboard() {
+
+const [throwsLeft, setThrowsLeft] = useState(THROWS);
+const [status, setStatus] = useState('');
+const [selectedDices, setSelectedDices] =
+    useState(new Array(DICES).fill(false));
+
+// FUNCTION: THROW DICE
+const throwDice = () => {
+    for (let i = 0; i < DICES; i++) {
+        if (!selectedDices[i]) {
+            let randomNumber = Math.floor(Math.random() * 6 + 1 );
+            board[i] = 'dice-' + randomNumber;
+        }
+    }
+    setThrowsLeft(throwsLeft - 1 )
+}
+
+// FUNCTION: SELECT DICE TO KEEP
+const selectDice = (i) => {
+    let dices = [...selectedDices];
+    dices[i] = selectedDices[i] ? false : true;
+    setSelectedDices(dices);
+}
+
+// FUNCTION: SET COLOR OF SELECTED DICE
+const getDiceColor = (i) => {
+    return selectedDices[i] ? "red" : "black";
+}
+
+// dice row/board
+const row = [];
+for (let i = 0; i < DICES; i++) {
+    row.push(
+        <Col>
+            <Pressable
+            key={"row" + i}
+            onPress={() => selectDice(i)}>
+                <MaterialCommunityIcons
+                name={board[i]}
+                key={"row" + 1}
+                size={60}
+                color={getDiceColor(i)}
+                />
+            </Pressable>
+        </Col>
+    );
+}
+
+// point slot buttons - WIP: points readout, changing of color and icon style based on selection
 const points = [];
 for (let i = 0; i < POINT_SLOTS; i++) {
     points.push(
@@ -24,16 +77,17 @@ for (let i = 0; i < POINT_SLOTS; i++) {
     )
 }
 
-export default function Gameboard() {
   return (
       <Row size={10}>
         <Col>
-            <Row size={2}><Text>dice go here</Text></Row>
-            <Row><Text>Throws Left:</Text></Row>
+            <Row size={2}><Col/>{row}<Col/></Row>
+            <Row><Text>Throws Left: {throwsLeft}</Text></Row>
             <Row><Text>Game Status Message</Text></Row>
-            <Row size={2}>
-                <Pressable>
-                    <Text>Throw dice</Text>
+            <Row size={2} style={Styles.row}>
+                <Pressable
+                style={Styles.button}
+                onPress={() => throwDice()}>
+                    <Text style={Styles.buttonText}>Throw dice</Text>
                 </Pressable>
             </Row>
             <Row><Text>Total:</Text></Row>
