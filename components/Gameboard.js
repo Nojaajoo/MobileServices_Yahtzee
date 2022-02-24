@@ -3,11 +3,26 @@ import React, { useState } from 'react';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Styles from '../styles/Styles';
+import { getApplication } from 'react-native-web/dist/cjs/exports/AppRegistry/renderApplication';
 
 const POINT_SLOTS = 6;
 const DICES = 5;
 const THROWS = 3;
 let board = [];
+
+let slots = [];
+for (let i = 0; i < POINT_SLOTS; i++) {
+    slots.push(
+        {
+            id: i,
+            selected: false,
+            locked: false,
+            value: i+1,
+            sum: 0,
+            icon: "numeric-" + [i + 1] + "-box-multiple-outline"
+        }
+    )
+}
 
 
 export default function Gameboard() {
@@ -17,26 +32,16 @@ const [status, setStatus] = useState('');
 const [selectedDices, setSelectedDices] =
     useState(new Array(DICES).fill(false));
 const [selectedPoints, setSelectedPoints] =
-    useState(new Array(DICES).fill(false));
+    useState(slots);
 
 // const [selectedPoints, setSelectedPoints] =
-//     useState(slots);
+//     useState(new Array(POINTS).fill(false));
 
-let slots = [];
-for (let i = 0; i < POINT_SLOTS; i++) {
-    slots.push([
-        {
-            "slot_id": "points" + i,
-            "selected": false,
-            "locked": false,
-            "value": 0
-        }
-    ])
-}
+
 
 // FUNCTION: THROW DICE
 const throwDice = () => {
-    console.log(slots);
+    
     for (let i = 0; i < DICES; i++) {
         if (!selectedDices[i]) {
             let randomNumber = Math.floor(Math.random() * 6 + 1 );
@@ -44,6 +49,8 @@ const throwDice = () => {
         }
     }
     setThrowsLeft(throwsLeft - 1 )
+    console.log(selectedPoints);
+    // console.log(board);
 }
 
 // FUNCTION: SELECT DICE TO KEEP
@@ -61,22 +68,41 @@ const getDiceColor = (i) => {
 // FUNCTION: SELECT POINTS TO KEEP
 const selectPoints = (i) => {
     let points = [...selectedPoints];
-    points[i] = selectedPoints[i] ? false : true;
-    setSelectedPoints(points);
+    // points[i] = selectedPoints[i] ? false : true;
+    // setSelectedPoints(points);
+    let index = points.findIndex((item => item.id == i));
+    if (points[index]["selected"] == true) {
+        return;
+    } else {
+        points[index]["selected"] = true;
+        setSelectedPoints(points);
+    }
+}
+
+const getIcon = (i) => {
+    let index = selectedPoints.findIndex((item => item.id == i));
+    let iconToReturn = selectedPoints[index]["icon"];
+    return iconToReturn;
 }
 
 // FUNCTION: SET SELECTED POINTS CATEGORY COLOR
 const getPointsColor = (i) => {
-    return selectedPoints[i] ? "red" : "black";
+    //  return selectedPoints[i] ? "red" : "black";
+    let index = selectedPoints.findIndex((item => item.id == i));
+    if (selectedPoints[index]["selected"] === true) {
+        return "black";
+    } else {
+        return "red";
+    }
+    // console.log(objIndex);
 }
 
 // dice row/board
 const row = [];
 for (let i = 0; i < DICES; i++) {
     row.push(
-        <Col>
+        <Col key={"row" + i}>
             <Pressable
-            key={"row" + i}
             onPress={() => selectDice(i)}>
                 <MaterialCommunityIcons
                 name={board[i]}
@@ -91,15 +117,15 @@ for (let i = 0; i < DICES; i++) {
 
 // point slot buttons - WIP: points readout, changing of color and icon style based on selection
 const points = [];
-for (let i = 0; i < POINT_SLOTS; i++) {
+for (let i = 0; i < slots.length; i++) {
     points.push(
-        <Col style={Styles.pointSlot}>
+        <Col style={Styles.pointSlot}  key={"points" + i}>
             <Text style={Styles.pointSlotText}>0</Text>
             <Pressable
-            key={"points" + i} 
             onPress={() => selectPoints(i)}>
                 <MaterialCommunityIcons
-                name={"numeric-" + [i + 1] + "-box-multiple-outline"}
+                //name={"numeric-" + [i + 1] + "-box-multiple-outline"}
+                name={getIcon(i)}
                 key={"points" + i}
                 size={40}
                 color={getPointsColor(i)}>
