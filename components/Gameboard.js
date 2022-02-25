@@ -73,7 +73,7 @@ const throwDice = () => {
     setStatus("Keep playing");
     setThrowsLeft(throwsLeft - 1 )
     console.log(selectedPoints);
-    // console.log(board);
+    console.log(board);
 }
 
 // FUNCTION: SELECT DICE TO KEEP
@@ -112,10 +112,16 @@ const selectPoints = (i) => {
         setSelectedPoints(points);
         setThrowsLeft(THROWS);
         setStatus("Begin the next round");
+        
         // throwDice();
     }
 }
 
+const getSumText = (i) => {
+    return selectedPoints[i]["sum"];
+}
+
+// FUNCTION: get icons for point slots. WIP: change icon if locked ?
 const getIcon = (i) => {
     let index = getIndex(i);
     let iconToReturn = selectedPoints[index]["icon"];
@@ -131,7 +137,6 @@ const getPointsColor = (i) => {
     } else {
         return "red";
     }
-    // console.log(objIndex);
 }
 
 // dice row/board
@@ -157,7 +162,7 @@ const points = [];
 for (let i = 0; i < slots.length; i++) {
     points.push(
         <Col style={Styles.pointSlot}  key={"points" + i}>
-            <Text style={Styles.pointSlotText}>0</Text>
+            <Text style={Styles.pointSlotText}>{getSumText(i)}</Text>
             <Pressable
             onPress={() => selectPoints(i)}>
                 <MaterialCommunityIcons
