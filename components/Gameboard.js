@@ -38,6 +38,17 @@ const [selectedPoints, setSelectedPoints] =
 // const [selectedPoints, setSelectedPoints] =
 //     useState(new Array(POINTS).fill(false));
 
+// render placeholder dice at new game
+useEffect(() => {
+    for (let i = 0; i < DICES; i++) {
+        if (!selectedDices[i]) {
+            let number = i + 1;
+            board[i] = 'dice-' + number + "-outline";
+        }
+    }
+}, [])
+
+// handle throwsleft changes
 useEffect(() => {
     if (gameStarted === false) {
         setStatus("Game has not started");
@@ -109,11 +120,18 @@ const selectPoints = (i) => {
         return;
     } else {
         points[index]["selected"] = true;
-        setSelectedPoints(points);
+        
         setThrowsLeft(THROWS);
         setStatus("Begin the next round");
-        
-        // throwDice();
+        let summedPoints = board.map(item => item.slice(5,7));
+        console.log(summedPoints);
+
+        let count = summedPoints.filter(x => x == (index+1)).length;
+        let sum = count * (index + 1);
+        console.log(sum);
+
+        points[index]["sum"] = sum;
+        setSelectedPoints(points);
     }
 }
 
