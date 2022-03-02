@@ -20,11 +20,12 @@ export default StyleSheet.create({
         alignSelf: "flex-end"
       },
       footer: {
-          backgroundColor: 'darkorange',
+          backgroundColor: 'red',
           justifyContent: "center"
       },
       footerText: {
         color: "white",
+        marginBottom: 10,
         alignSelf: "flex-end"
       },
       dices: {
@@ -38,7 +39,9 @@ export default StyleSheet.create({
         marginTop: 20
       },
       statusText: {
-        marginTop: 30
+        marginTop: 30,
+        fontSize: 20,
+        fontWeight: "bold",
       },
       totalText: {
         fontSize: 20,
@@ -63,7 +66,8 @@ export default StyleSheet.create({
         width: 150,
         borderRadius: 15,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        color: "white",
       },
       buttonText: {
         color:"#2B2B52",

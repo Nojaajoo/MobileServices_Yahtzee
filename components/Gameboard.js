@@ -278,7 +278,7 @@ for (let i = 0; i < slots.length; i++) {
         <Col>
             <Row size={2}><Col/>{row}<Col/></Row>
             <Row style={Styles.row}><Text style={Styles.throwsText}>Throws Left: {throwsLeft}</Text></Row>
-            <Row style={Styles.row}><Text style={Styles.statusText}>Game status: {status}</Text></Row>
+            <Row style={Styles.row}><Text style={Styles.statusText}>{status}</Text></Row>
             <Row size={2} style={Styles.row}>
                 <Pressable
                 style={Styles.button}
