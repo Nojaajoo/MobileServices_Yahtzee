@@ -5,10 +5,8 @@ import styles from '../styles/Styles';
 
 export default function Footer() {
   return (
-    <Row size={1.5}>
-        <Col style={styles.footer}>
-                <Text>Footer</Text>
-        </Col>
+    <Row size={1.5} style={styles.footer}>
+          <Text style={styles.footerText}>Joona Oja TIK20SP</Text>
     </Row>
     
 

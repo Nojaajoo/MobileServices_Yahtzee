@@ -11,12 +11,41 @@ export default StyleSheet.create({
       },
       header: {
           backgroundColor: 'orange',
+          justifyContent: "center"
+      },
+      headerText: {
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "white",
+        alignSelf: "flex-end"
       },
       footer: {
           backgroundColor: 'darkorange',
+          justifyContent: "center"
+      },
+      footerText: {
+        color: "white",
+        alignSelf: "flex-end"
+      },
+      dices: {
+        marginTop: 10,
+        justifyContent: "flex-end"
       },
       row: {
         justifyContent: "center",
+      },
+      throwsText: {
+        marginTop: 20
+      },
+      statusText: {
+        marginTop: 30
+      },
+      totalText: {
+        fontSize: 20,
+        fontWeight: "bold",
+      },
+      pointStatusText: {
+        marginTop: 10
       },
       pointSlot: {
           alignItems: 'center',
