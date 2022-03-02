@@ -1,14 +1,12 @@
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 import React from 'react'
-import { Col, Row, Grid } from "react-native-easy-grid";
-import styles from '../styles/Styles';
+import { Row } from "react-native-easy-grid";
+import Styles from '../styles/Styles';
 
 export default function Footer() {
   return (
-    <Row size={1.5} style={styles.footer}>
-          <Text style={styles.footerText}>Joona Oja TIK20SP</Text>
+    <Row size={1.5} style={Styles.footer}>
+      <Text style={Styles.footerText}>Joona Oja TIK20SP</Text>
     </Row>
-    
-
   )
 }

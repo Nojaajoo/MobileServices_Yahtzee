@@ -1,18 +1,13 @@
-import { View, Text, Pressable } from 'react-native';
+import { Text, Pressable } from 'react-native';
 import React, { useState, useEffect, } from 'react';
-import { Col, Row, Grid } from "react-native-easy-grid";
+import { Col, Row } from "react-native-easy-grid";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Styles from '../styles/Styles';
-
 
 const POINT_SLOTS = 6;
 const DICES = 5;
 const THROWS = 3;
-
-
-
 let board = [];
-
 let slots = [];
 for (let i = 0; i < POINT_SLOTS; i++) {
     slots.push(
@@ -21,11 +16,10 @@ for (let i = 0; i < POINT_SLOTS; i++) {
             selected: false,
             locked: false,
             sum: 0,
-            icon: "numeric-" + [i + 1] + "-box-multiple-outline"
+            icon: "numeric-" + [i + 1] + "-box-multiple"
         }
     )
 }
-
 
 export default function Gameboard() {
 const [turn, setTurn] = useState(0);
@@ -37,10 +31,6 @@ const [selectedDices, setSelectedDices] =
     useState(new Array(DICES).fill(false));
 const [selectedPoints, setSelectedPoints] =
     useState(slots);
-    const [gameStarted, setGameStarted] = useState(false);
-
-// const [selectedPoints, setSelectedPoints] =
-//     useState(new Array(POINTS).fill(false));
 
 // render placeholder dice at new game
 useEffect(() => {
@@ -70,8 +60,6 @@ useEffect(() => {
 
 // check if game is over after every turn
 useEffect(() => {
-    
-    console.log(total);
     let untilBonus = 63 - total;
     if (untilBonus <= 0) {
         setPointsStatus("You got the bonus!")
@@ -100,7 +88,7 @@ const throwDice = () => {
                         selected: false,
                         locked: false,
                         sum: 0,
-                        icon: "numeric-" + [i + 1] + "-box-multiple-outline"
+                        icon: "numeric-" + [i + 1] + "-box-multiple"
                     }
                 )
             }
@@ -108,7 +96,6 @@ const throwDice = () => {
         setTotal(0);
         setPointsStatus("");
     }
-
     for (let i = 0; i < DICES; i++) {
         if (!selectedDices[i]) {
             let randomNumber = Math.floor(Math.random() * 6 + 1 );
@@ -116,11 +103,8 @@ const throwDice = () => {
         }
     }
     setTurn(turn+1);
-    console.log("turn:" + turn)
     setStatus("Keep playing.");
     setThrowsLeft(throwsLeft - 1 )
-    // console.log(selectedPoints);
-    // console.log(board);
 }
 
 // FUNCTION: SELECT DICE TO KEEP
@@ -129,7 +113,7 @@ const selectDice = (i) => {
         setStatus("Select points to keep before next round!");
         return;
     } else if (throwsLeft == 3) {
-        setStatus("Throw the first throw before keeping dice!");
+        setStatus("Throw the first throw!");
         return;
     }
     let dices = [...selectedDices];
@@ -146,62 +130,49 @@ const getDiceColor = (i) => {
 const checkGameOver = (points) => {
     const checkEnd = points.every(data => data.locked);
     if (checkEnd) {
-        
         setStatus("Game over!");
-        console.log(total);
-
         if (total > 62) {
             setPointsStatus("You got 10 bonus points!");
             setTotal(total + 10);
         }
-        console.log("game over CheckGameOver.");
-
     }
 };
 
 // FUNCTION: SELECT POINTS TO KEEP
 const selectPoints = (i) => {
+    // check throws left before new throws
     if (throwsLeft > 0) {
         setStatus("Throw your dice first!");
         return;
     }
     let points = [...selectedPoints];
     let index = getIndex(i);
+    // already selected points can't be reallocated
     if (points[index]["selected"] == true) {
-        return; }
-    //  else {
+        return; 
+    } else {
         points[index]["selected"] = true;
-        
         setThrowsLeft(THROWS);
-        // setStatus("Begin the next round");
-        let summedPoints = board.map(item => item.slice(5,7));
-        // console.log(summedPoints);
 
+        //find out the sums of selected dice
+        let summedPoints = board.map(item => item.slice(5,7));
         let count = summedPoints.filter(x => x == (index+1)).length;
         let sum = count * (index + 1);
-        // console.log(sum);
-
         points[index]["sum"] = sum;
-
-        
-
         points[index]["locked"] = true;
-        // checkGameOver(points);
         setSelectedPoints(points);
-
         setTotal(total + sum);
-        console.log(total);
 
+        // check if there are points not yet collected
         const checkEnd = points.every(data => data.locked);
         if (!checkEnd) {
             setStatus("Begin next round.");
         }
         setTurn(1);
-        
-        
-    // }
+    }
 }
 
+// FUNCTION: get sum texts for each slot
 const getSumText = (i) => {
     return selectedPoints[i]["sum"];
 }
@@ -215,7 +186,6 @@ const getIcon = (i) => {
 
 // FUNCTION: SET SELECTED POINTS CATEGORY COLOR
 const getPointsColor = (i) => {
-    //  return selectedPoints[i] ? "red" : "black";
     let index = getIndex(i);
     if (selectedPoints[index]["selected"] === true) {
         return "black";
@@ -224,7 +194,7 @@ const getPointsColor = (i) => {
     }
 }
 
-// FUNCTION: get button text
+// FUNCTION: get main button text
 const getButtonText = () => {
     if (status === "Game has not started.") {
         return "Start Game";
@@ -253,7 +223,7 @@ for (let i = 0; i < DICES; i++) {
     );
 }
 
-// point slot buttons - WIP: points readout, changing of color and icon style based on selection
+// point slot buttons
 const points = [];
 for (let i = 0; i < slots.length; i++) {
     points.push(
